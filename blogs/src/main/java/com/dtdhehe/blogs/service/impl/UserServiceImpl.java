@@ -1,7 +1,9 @@
 package com.dtdhehe.blogs.service.impl;
 
 import com.dtdhehe.blogs.entity.User;
+import com.dtdhehe.blogs.mapper.UserMapper;
 import com.dtdhehe.blogs.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,16 +14,12 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    UserMapper userMapper;
+
     @Override
     public User findByUserName(String userName) {
-        //测试数据
-        User user = new User();
-        user.setId(1);
-        user.setUserName("dtdhehe");
-        user.setPassword("123456");
-        if ("dtdhehe".equals(userName)){
-            return user;
-        }
-        return null;
+        return userMapper.findByUserName(userName);
     }
 }

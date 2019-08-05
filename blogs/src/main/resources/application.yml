@@ -7,3 +7,8 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
 mybatis:
   type-aliases-package: com.dtdhehe.blogs.entity
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    com.dtdhehe.blogs.mapper: debug
