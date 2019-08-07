@@ -1,6 +1,7 @@
 package com.dtdhehe.blogs.config;
 
 import com.dtdhehe.blogs.shiro.UserRealm;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,11 +36,12 @@ public class ShiroConfig {
            ssl:表示安全的url请求，协议为https
            user:当登入操作时不做检查*/
         Map<String,String> map = new LinkedHashMap<>();
-        map.put("/test/*","anon");
+        map.put("/user/*","anon");
+        map.put("/login","anon");
         map.put("logout","logout");
         map.put("/**","authc");
         //被拦截的登录页面
-        factoryBean.setLoginUrl("/test/unLogin");
+        factoryBean.setLoginUrl("/unLogin");
         //未授权页面
         factoryBean.setUnauthorizedUrl("");
         factoryBean.setFilterChainDefinitionMap(map);
@@ -63,7 +65,23 @@ public class ShiroConfig {
      * @return
      */
     @Bean(name = "userRealm")
-    public UserRealm getUserRealm(){
-        return new UserRealm();
+    public UserRealm getUserRealm(@Qualifier("hashedCredentialsMatcher")HashedCredentialsMatcher matcher){
+        UserRealm realm = new UserRealm();
+        realm.setCredentialsMatcher(matcher);
+        return realm;
+    }
+
+    /**
+     * 密码匹配凭证管理器
+     * @return
+     */
+    @Bean(name = "hashedCredentialsMatcher")
+    public HashedCredentialsMatcher hashedCredentialsMatcher(){
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        //采用MD5方式加密
+        hashedCredentialsMatcher.setHashAlgorithmName("MD5");
+        //设置加密次数
+        hashedCredentialsMatcher.setHashIterations(1024);
+        return hashedCredentialsMatcher;
     }
 }

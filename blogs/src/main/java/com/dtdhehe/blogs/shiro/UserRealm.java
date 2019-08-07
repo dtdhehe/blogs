@@ -2,11 +2,13 @@ package com.dtdhehe.blogs.shiro;
 
 import com.dtdhehe.blogs.entity.User;
 import com.dtdhehe.blogs.service.UserService;
+import com.dtdhehe.blogs.util.ConstantUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -50,6 +52,12 @@ public class UserRealm extends AuthorizingRealm {
             //用户不存在
             throw new UnknownAccountException();
         }
-        return new SimpleAuthenticationInfo(dbUser,dbUser.getPassword(),getName());
+        if (ConstantUtils.NOTACTIVE.equals(dbUser.getValid())){
+            throw new DisabledAccountException();
+        }
+        if (ConstantUtils.LOCKED.equals(dbUser.getValid())){
+            throw new LockedAccountException();
+        }
+        return new SimpleAuthenticationInfo(dbUser,dbUser.getPassword(),ByteSource.Util.bytes(dbUser.getUserName()),getName());
     }
 }

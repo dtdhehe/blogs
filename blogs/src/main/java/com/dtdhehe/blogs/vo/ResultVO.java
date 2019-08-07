@@ -1,40 +1,28 @@
 package com.dtdhehe.blogs.vo;
 
+import lombok.Data;
+
 /**
  * @author Xie_东
  * @version 1.0
  * @date 2019/8/4 22:10
  * @description
  **/
+@Data
 public class ResultVO {
 
-    private String code;
+    private Integer code;
 
     private String msg;
 
     private Object obj;
 
-    public String getCode() {
-        return code;
+    public ResultVO() {
     }
 
-    public void setCode(String code) {
+    public ResultVO(Integer code, String msg, Object obj) {
         this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
         this.msg = msg;
-    }
-
-    public Object getObj() {
-        return obj;
-    }
-
-    public void setObj(Object obj) {
         this.obj = obj;
     }
 }

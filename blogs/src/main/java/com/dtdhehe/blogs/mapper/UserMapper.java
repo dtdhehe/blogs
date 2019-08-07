@@ -24,4 +24,12 @@ public interface UserMapper {
                     many = @Many(select = "com.dtdhehe.blogs.mapper.RoleMapper.findRoleByUserId"))
     })
     User findByUserName(@Param("userName") String userName);
+
+    /**
+     * 保存用户
+     * @param user
+     * @return
+     */
+    @Insert("insert into user(id,user_name,password,gender,valid) VALUES(#{id},#{userName},#{password},#{gender},#{valid});")
+    Integer save(User user);
 }

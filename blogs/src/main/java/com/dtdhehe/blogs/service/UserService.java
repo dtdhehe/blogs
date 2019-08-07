@@ -16,4 +16,11 @@ public interface UserService {
      * @return
      */
     User findByUserName(String userName);
+
+    /**
+     * 保存用户(注册)
+     * @param user
+     * @return
+     */
+    Integer saveOrUpdateUser(User user);
 }

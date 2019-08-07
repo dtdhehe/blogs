@@ -2,12 +2,10 @@ package com.dtdhehe.blogs.controller;
 
 import com.dtdhehe.blogs.entity.User;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -17,8 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @description
  **/
 @RestController
-@RequestMapping("/test")
-public class TestController {
+public class LoginController {
 
     @RequestMapping("/hello")
     public String testHello(){
@@ -30,7 +27,7 @@ public class TestController {
         return "unLogin";
     }
 
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
     public String login(User user){
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(),user.getPassword());
@@ -40,6 +37,9 @@ public class TestController {
         }catch (UnknownAccountException e){
             e.printStackTrace();
             return "用户名不存在";
+        }catch (DisabledAccountException e){
+            e.printStackTrace();
+            return "该用户未激活";
         }catch (IncorrectCredentialsException e){
             e.printStackTrace();
             return "密码错误";
