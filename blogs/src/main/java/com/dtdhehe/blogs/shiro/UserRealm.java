@@ -1,5 +1,6 @@
 package com.dtdhehe.blogs.shiro;
 
+import com.dtdhehe.blogs.entity.Role;
 import com.dtdhehe.blogs.entity.User;
 import com.dtdhehe.blogs.service.UserService;
 import com.dtdhehe.blogs.util.ConstantUtils;
@@ -10,6 +11,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * @author Xie_东
@@ -33,7 +36,10 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         User user = (User) principalCollection.getPrimaryPrincipal();
         //授权
-
+        List<Role> roleList = user.getRoleList();
+        for (Role role : roleList){
+            authorizationInfo.addRole(role.getRoleName());
+        }
         return authorizationInfo;
     }
 

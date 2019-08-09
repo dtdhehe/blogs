@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     public Integer saveOrUpdateUser(User user) {
         if (StringUtils.isEmpty(user.getId())){
             //id为空，新增用户
-            user.setId(UserUtils.getUniqueKey());
+            user.setId(ConstantUtils.getUniqueKey());
             //取用户名作为加密盐
             user.setPassword(UserUtils.getPWD(user.getPassword(),user.getUserName()));
             user.setValid(ConstantUtils.NOTACTIVE);
