@@ -1,6 +1,7 @@
 package com.dtdhehe.blogs.controller;
 
 import com.dtdhehe.blogs.entity.User;
+import com.dtdhehe.blogs.service.MessageService;
 import com.dtdhehe.blogs.service.UserService;
 import com.dtdhehe.blogs.util.ConstantUtils;
 import com.dtdhehe.blogs.util.ResultUtils;
@@ -22,6 +23,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
     /**
      * 注册用户
      * @param user

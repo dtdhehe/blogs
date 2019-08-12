@@ -2,6 +2,7 @@ package com.dtdhehe.blogs.service.impl;
 
 import com.dtdhehe.blogs.entity.User;
 import com.dtdhehe.blogs.mapper.UserMapper;
+import com.dtdhehe.blogs.rabbitmq.direct.produce.MailProduce;
 import com.dtdhehe.blogs.service.UserService;
 import com.dtdhehe.blogs.util.ConstantUtils;
 import com.dtdhehe.blogs.util.UserUtils;
@@ -21,6 +22,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    MailProduce mailProduce;
     @Override
     public User findByUserName(String userName) {
         return userMapper.findByUserName(userName);
@@ -34,6 +37,8 @@ public class UserServiceImpl implements UserService {
             //取用户名作为加密盐
             user.setPassword(UserUtils.getPWD(user.getPassword(),user.getUserName()));
             user.setValid(ConstantUtils.NOTACTIVE);
+            Integer sender = mailProduce.sender("474786105@qq.com");
+            System.out.println("发送消息"+ (sender.equals(ConstantUtils.SUCCESS)?"成功":"失败"));
             return userMapper.save(user);
         }else {
             //TODO 修改用户

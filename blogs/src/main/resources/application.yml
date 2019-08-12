@@ -5,6 +5,17 @@ spring:
     username: root
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
+  mail:
+    host: smtp.sina.com
+    username: dtdhehe@sina.com
+    password: xd474786105
+    default-encoding: utf-8
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: dtdhehe
+    password: dtdhehe
+    virtual-host: blogs
 mybatis:
   type-aliases-package: com.dtdhehe.blogs.entity
   configuration:

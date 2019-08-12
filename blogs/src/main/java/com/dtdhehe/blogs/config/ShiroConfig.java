@@ -37,6 +37,8 @@ public class ShiroConfig {
            user:当登入操作时不做检查*/
         Map<String,String> map = new LinkedHashMap<>();
         map.put("/user/*","anon");
+        map.put("/produce","anon");
+        map.put("/test","anon");
         map.put("/login","anon");
         map.put("logout","logout");
         map.put("/**","authc");

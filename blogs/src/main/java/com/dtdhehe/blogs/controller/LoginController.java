@@ -1,6 +1,8 @@
 package com.dtdhehe.blogs.controller;
 
 import com.dtdhehe.blogs.entity.User;
+import com.dtdhehe.blogs.util.ResultUtils;
+import com.dtdhehe.blogs.vo.ResultVO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -28,21 +30,21 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public String login(User user){
+    public ResultVO login(User user){
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(),user.getPassword());
         try {
             subject.login(token);
-            return "login";
+            return ResultUtils.success("login");
         }catch (UnknownAccountException e){
             e.printStackTrace();
-            return "用户名不存在";
+            return ResultUtils.failed("用户名不存在");
         }catch (DisabledAccountException e){
             e.printStackTrace();
-            return "该用户未激活";
+            return ResultUtils.failed("该用户未激活");
         }catch (IncorrectCredentialsException e){
             e.printStackTrace();
-            return "密码错误";
+            return ResultUtils.failed("密码错误");
         }
     }
 
